@@ -3,7 +3,7 @@ package com.epam.fourth.composite;
 import com.epam.fourth.type.TextType;
 
 public class CharacterLeaf implements TextComponent {
-    private TextType type; //лишнее
+    private TextType type;
     private Character value;
 
     public CharacterLeaf(TextType type, char value) {

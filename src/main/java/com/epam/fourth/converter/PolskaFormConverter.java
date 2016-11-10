@@ -28,10 +28,9 @@ public class PolskaFormConverter {
         out = new ArrayDeque<>();
     }
 
-    public String convert(String source) {
+    public ArrayDeque<String> convert(String source) {
         char sourceChars[] = source.toCharArray();
         int i = 0;
-        String result = "";
 
         while (i < sourceChars.length) {
 
@@ -40,8 +39,7 @@ public class PolskaFormConverter {
                     if (sourceChars[i + 1] == MINUS) {
                         workWithOperator(DECREMENT);
                         i++;
-                    }
-                    if (i == 0 || sourceChars[i - 1] == L_BRACKET) {
+                    } else if (i == 0 || sourceChars[i - 1] == L_BRACKET) {
                         String num = String.valueOf(sourceChars[i]);
 
                         do {
@@ -67,7 +65,7 @@ public class PolskaFormConverter {
                     workWithOperator(String.valueOf(sourceChars[i]));
                     break;
                 case R_BRACKET:
-                    if (stack.size() > 0) {
+                    if (!stack.isEmpty()) {
                         String element = stack.pop();
                         while (!element.equals(String.valueOf(L_BRACKET))) {
                             out.push(element);
@@ -98,15 +96,11 @@ public class PolskaFormConverter {
 
         clearStack();
 
-        while (out.size() > 0) {
-            result += out.pollLast() + " ";
-        }
-
-        return result;
+        return out;
     }
 
     private void clearStack() {
-        while (stack.size() > 0) {
+        while (!stack.isEmpty()) {
             String elem = stack.pop();
             if (!elem.equals(String.valueOf(L_BRACKET))) {
                 out.push(elem);
@@ -115,7 +109,7 @@ public class PolskaFormConverter {
     }
 
     private void workWithOperator(String operator) {
-        if (stack.size() > 0) {
+        if (!stack.isEmpty()) {
             while (getPriority(operator) <= getPriority(stack.getFirst())) {
                 String element = stack.pop();
                 if (!element.equals(String.valueOf(L_BRACKET))) {

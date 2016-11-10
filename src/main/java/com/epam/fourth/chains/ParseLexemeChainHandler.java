@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ParseLexemeChainHandler extends AbstractChainHandler {
-    private static final String LEXEME_REGEX = "\\p{Space}[\\p{Alnum}-+(]+\\p{P}?";
+    private static final String LEXEME_REGEX = "\\p{Space}\\p{Graph}+\\p{P}?";
     private ArrayDeque<String> lexemes;
 
     public ParseLexemeChainHandler() {

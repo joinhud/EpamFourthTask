@@ -2,6 +2,8 @@ package com.epam.fourth.chains;
 
 import com.epam.fourth.composite.CharacterLeaf;
 import com.epam.fourth.composite.TextComposite;
+import com.epam.fourth.converter.PolskaFormConverter;
+import com.epam.fourth.interpreter.ExpressionClient;
 import com.epam.fourth.type.TextType;
 
 import java.util.ArrayDeque;
@@ -9,7 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ParseWordChainHandler extends AbstractChainHandler {
-    private static final String WORD_REGEX = "\\p{Space}[\\p{Alnum}-+(]+\\p{P}?";
+    private static final String WORD_REGEX = "\\p{Space}\\p{Graph}+\\p{Punct}?";
+    private static final String EXPRESSION_REGEX = "[\\p{Digit}\\p{Punct}]{2,}";
     private static final String PUNCT_REGEX = ".+\\p{P}]";
     private ArrayDeque<String> words;
 
@@ -24,10 +27,20 @@ public class ParseWordChainHandler extends AbstractChainHandler {
         while (matcher.find()) {
             String parsed = matcher.group();
             composite.add(new CharacterLeaf(TextType.CHARACTER, parsed.charAt(0)));
+            parsed = parsed.trim();
             composite.add(new TextComposite(TextType.WORD));
+
             if (parsed.matches(PUNCT_REGEX)) {
                 composite.add(new CharacterLeaf(TextType.CHARACTER, parsed.charAt(parsed.length() - 1)));
+                parsed = parsed.substring(0, parsed.length() - 1);
             }
+
+            if (parsed.matches(EXPRESSION_REGEX)) {
+                PolskaFormConverter converter = new PolskaFormConverter();
+                ExpressionClient interpreter = new ExpressionClient(converter.convert(parsed));
+                parsed = interpreter.calculate().toString();
+            }
+
             words.add(parsed);
         }
     }
