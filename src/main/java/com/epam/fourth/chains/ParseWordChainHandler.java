@@ -3,8 +3,11 @@ package com.epam.fourth.chains;
 import com.epam.fourth.composite.CharacterLeaf;
 import com.epam.fourth.composite.TextComposite;
 import com.epam.fourth.converter.PolskaFormConverter;
+import com.epam.fourth.exception.ChainHandlerException;
 import com.epam.fourth.interpreter.ExpressionClient;
 import com.epam.fourth.type.TextType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayDeque;
 import java.util.regex.Matcher;
@@ -14,6 +17,8 @@ public class ParseWordChainHandler extends AbstractChainHandler {
     private static final String WORD_REGEX = "\\p{Space}\\p{Graph}+\\p{Punct}?";
     private static final String EXPRESSION_REGEX = "[\\p{Digit}\\p{Punct}]{2,}";
     private static final String PUNCT_REGEX = ".+\\p{P}]";
+    private static final Logger LOG = LogManager.getLogger();
+
     private ArrayDeque<String> words;
 
     public ParseWordChainHandler() {
@@ -21,9 +26,14 @@ public class ParseWordChainHandler extends AbstractChainHandler {
     }
 
     @Override
-    public void handleRequest(TextComposite composite, String textForParsing) {
+    public void handleRequest(TextComposite composite, String textForParsing) throws ChainHandlerException {
+        if(composite == null) {
+            throw new ChainHandlerException("TextComposite object is null.");
+        }
+
         Pattern pattern = Pattern.compile(WORD_REGEX);
         Matcher matcher = pattern.matcher(textForParsing);
+
         while (matcher.find()) {
             String parsed = matcher.group();
             composite.add(new CharacterLeaf(TextType.CHARACTER, parsed.charAt(0)));
@@ -47,10 +57,14 @@ public class ParseWordChainHandler extends AbstractChainHandler {
 
     @Override
     public void chain(TextComposite composite, String textForParsing) {
-        handleRequest(composite, textForParsing);
-        composite.getComponents()
-                .stream()
-                .filter(component -> component.getType().equals(TextType.WORD))
-                .forEach(component -> successor.chain((TextComposite) component, words.poll()));
+        try {
+            handleRequest(composite, textForParsing);
+            composite.getComponents()
+                    .stream()
+                    .filter(component -> component.getType().equals(TextType.WORD))
+                    .forEach(component -> successor.chain((TextComposite) component, words.poll()));
+        } catch (ChainHandlerException e) {
+            LOG.error(e);
+        }
     }
 }

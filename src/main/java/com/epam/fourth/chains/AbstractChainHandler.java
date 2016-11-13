@@ -1,6 +1,7 @@
 package com.epam.fourth.chains;
 
 import com.epam.fourth.composite.TextComposite;
+import com.epam.fourth.exception.ChainHandlerException;
 
 public abstract class AbstractChainHandler {
     protected AbstractChainHandler successor = DefaultHandlerRequest.getHandlerRequest();
@@ -16,7 +17,7 @@ public abstract class AbstractChainHandler {
         this.successor = successor;
     }
 
-    public abstract void handleRequest(TextComposite composite, String textForParsing);
+    public abstract void handleRequest(TextComposite composite, String textForParsing) throws ChainHandlerException;
 
     public abstract void chain(TextComposite composite, String textForParsing);
 
@@ -36,7 +37,6 @@ public abstract class AbstractChainHandler {
 
         @Override
         public void chain(TextComposite composite, String textForParsing) {
-            //обработчик по умолчанию
         }
     }
 }

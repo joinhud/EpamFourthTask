@@ -1,12 +1,15 @@
 package com.epam.fourth.composite;
 
 import com.epam.fourth.type.TextType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class TextComposite implements TextComponent {
     private TextType type;
     private ArrayList<TextComponent> components;
+    private static final Logger LOG = LogManager.getLogger();
 
     public TextComposite(TextType type) {
         this.type = type;
@@ -18,7 +21,9 @@ public class TextComposite implements TextComponent {
     }
 
     public void add(TextComponent component) {
-        components.add(component);
+        if(!components.add(component)) {
+            LOG.info("Can't add TextComponent into TextComposit.");
+        }
     }
 
     public void remove(TextComponent component) {

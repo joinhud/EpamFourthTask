@@ -29,6 +29,10 @@ public class PolskaFormConverter {
     }
 
     public ArrayDeque<String> convert(String source) {
+        if(source == null) {
+            return null;
+        }
+
         char sourceChars[] = source.toCharArray();
         int i = 0;
 
@@ -109,12 +113,10 @@ public class PolskaFormConverter {
     }
 
     private void workWithOperator(String operator) {
-        if (!stack.isEmpty()) {
-            while (getPriority(operator) <= getPriority(stack.getFirst())) {
-                String element = stack.pop();
-                if (!element.equals(String.valueOf(L_BRACKET))) {
-                    out.push(element);
-                }
+        while (!stack.isEmpty() && getPriority(operator) <= getPriority(stack.getFirst())) {
+            String element = stack.pop();
+            if (!element.equals(String.valueOf(L_BRACKET))) {
+                out.push(element);
             }
         }
 

@@ -16,7 +16,9 @@ public class ExpressionClient {
 
     public ExpressionClient(ArrayDeque<String> expression) {
         listExpression = new ArrayList<>();
-        parse(expression);
+        if (expression != null) {
+            parse(expression);
+        }
     }
 
     private void parse(ArrayDeque<String> expression) {
