@@ -3,20 +3,20 @@ package com.epam.fourth.converter;
 import java.util.ArrayDeque;
 
 public class PolishFormConverter {
-    private static final char L_BRACKET = '(';
-    private static final char R_BRACKET = ')';
+    private static final char LEFT_BRACKET = '(';
+    private static final char RIGHT_BRACKET = ')';
     private static final char PLUS = '+';
     private static final char MINUS = '-';
-    private static final char MUL = '*';
-    private static final char DIV = '/';
+    private static final char MULTIPLY = '*';
+    private static final char DIVIDE = '/';
 
     private static final String INCREMENT = "++";
     private static final String DECREMENT = "--";
 
     private static final String OPERATORS[][] = new String[][]{
-            {String.valueOf(L_BRACKET), String.valueOf(R_BRACKET)},
+            {String.valueOf(LEFT_BRACKET), String.valueOf(RIGHT_BRACKET)},
             {String.valueOf(PLUS), String.valueOf(MINUS)},
-            {String.valueOf(MUL), String.valueOf(DIV)},
+            {String.valueOf(MULTIPLY), String.valueOf(DIVIDE)},
             {INCREMENT, DECREMENT}
     };
 
@@ -43,7 +43,7 @@ public class PolishFormConverter {
                     if (sourceChars[i + 1] == MINUS) {
                         workWithOperator(DECREMENT);
                         i++;
-                    } else if (i == 0 || sourceChars[i - 1] == L_BRACKET) {
+                    } else if (i == 0 || sourceChars[i - 1] == LEFT_BRACKET) {
                         String num = String.valueOf(sourceChars[i]);
 
                         do {
@@ -64,20 +64,20 @@ public class PolishFormConverter {
                         workWithOperator(String.valueOf(sourceChars[i]));
                     }
                     break;
-                case MUL:
-                case DIV:
+                case MULTIPLY:
+                case DIVIDE:
                     workWithOperator(String.valueOf(sourceChars[i]));
                     break;
-                case R_BRACKET:
+                case RIGHT_BRACKET:
                     if (!stack.isEmpty()) {
                         String element = stack.pop();
-                        while (!element.equals(String.valueOf(L_BRACKET))) {
+                        while (!element.equals(String.valueOf(LEFT_BRACKET))) {
                             out.push(element);
                             element = stack.pop();
                         }
                     }
                     break;
-                case L_BRACKET:
+                case LEFT_BRACKET:
                     stack.push(String.valueOf(sourceChars[i]));
                     break;
                 default:
@@ -106,7 +106,7 @@ public class PolishFormConverter {
     private void clearStack() {
         while (!stack.isEmpty()) {
             String elem = stack.pop();
-            if (!elem.equals(String.valueOf(L_BRACKET))) {
+            if (!String.valueOf(LEFT_BRACKET).equals(elem)) {
                 out.push(elem);
             }
         }
@@ -115,7 +115,7 @@ public class PolishFormConverter {
     private void workWithOperator(String operator) {
         while (!stack.isEmpty() && getPriority(operator) <= getPriority(stack.getFirst())) {
             String element = stack.pop();
-            if (!element.equals(String.valueOf(L_BRACKET))) {
+            if (!String.valueOf(LEFT_BRACKET).equals(element)) {
                 out.push(element);
             }
         }

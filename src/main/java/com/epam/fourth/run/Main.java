@@ -38,7 +38,7 @@ public class Main {
 
         try {
             report.writeTextCompositeDataReport(text);
-            report.writeSortedTextCompositReport(action.sortByCountOfLexeme(text));
+            report.writeSortedTextCompositeReport(action.sortByCountOfLexeme(text));
             action.swapLexemes(text);
             report.writeTextCompositeDataReport(text);
             action.deleteLexemes(text, 2, 'I');

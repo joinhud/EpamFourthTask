@@ -27,7 +27,7 @@ public class Report {
         worker.addDataToFile(FILE_PATH, ENDER);
     }
 
-    public void writeSortedTextCompositReport(String data) throws TextActionException {
+    public void writeSortedTextCompositeReport(String data) throws TextActionException {
         if (data == null) {
             throw new TextActionException("Result string is null");
         }

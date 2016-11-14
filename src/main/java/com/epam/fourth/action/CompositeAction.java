@@ -32,7 +32,7 @@ public class CompositeAction {
         int count = 0;
 
         for (TextComponent lexeme : ((TextComposite) component).getComponents()) {
-            if (lexeme.getType().equals(TextType.LEXEME)) {
+            if (TextType.LEXEME.equals(lexeme.getType())) {
                 count++;
             }
         }

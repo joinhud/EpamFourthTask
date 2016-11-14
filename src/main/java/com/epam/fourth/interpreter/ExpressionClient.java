@@ -49,7 +49,7 @@ public class ExpressionClient {
                     listExpression.add(new TerminalExpressionDecrement());
                     break;
                 default:
-                    listExpression.add(new NonterminalExpressionNumber(Double.parseDouble(lexeme)));
+                    listExpression.add(new NonTerminalExpressionNumber(Double.parseDouble(lexeme)));
             }
         }
     }
