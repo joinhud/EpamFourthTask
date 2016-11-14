@@ -26,6 +26,9 @@ public class ParseParagraphChainHandler extends AbstractChainHandler {
         if(composite == null) {
             throw new ChainHandlerException("TextComposite object is null.");
         }
+        if (textForParsing == null) {
+            throw new ChainHandlerException("String object is null.");
+        }
 
         Pattern pattern = Pattern.compile(PARAGRAPH_REGEX);
         Matcher matcher = pattern.matcher(textForParsing);
@@ -44,7 +47,7 @@ public class ParseParagraphChainHandler extends AbstractChainHandler {
             handleRequest(composite, textForParsing);
             composite.getComponents()
                     .stream()
-                    .filter(component -> component.getType().equals(TextType.PARAGRAPH))
+                    .filter(component -> TextType.PARAGRAPH.equals(component.getType()))
                     .forEach(component -> successor.chain((TextComposite) component, paragraphs.poll()));
         } catch (ChainHandlerException e) {
             LOG.error(e);

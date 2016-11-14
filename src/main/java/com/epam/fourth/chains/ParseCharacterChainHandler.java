@@ -12,8 +12,11 @@ public class ParseCharacterChainHandler extends AbstractChainHandler {
 
     @Override
     public void handleRequest(TextComposite composite, String textForParsing) throws ChainHandlerException {
-        if(composite == null) {
+        if (composite == null) {
             throw new ChainHandlerException("TextComposite object is null.");
+        }
+        if (textForParsing == null) {
+            throw new ChainHandlerException("String object is null.");
         }
 
         for (char val : textForParsing.toCharArray()) {

@@ -2,7 +2,7 @@ package com.epam.fourth.chains;
 
 import com.epam.fourth.composite.CharacterLeaf;
 import com.epam.fourth.composite.TextComposite;
-import com.epam.fourth.converter.PolskaFormConverter;
+import com.epam.fourth.converter.PolishFormConverter;
 import com.epam.fourth.exception.ChainHandlerException;
 import com.epam.fourth.interpreter.ExpressionClient;
 import com.epam.fourth.type.TextType;
@@ -30,6 +30,9 @@ public class ParseWordChainHandler extends AbstractChainHandler {
         if(composite == null) {
             throw new ChainHandlerException("TextComposite object is null.");
         }
+        if (textForParsing == null) {
+            throw new ChainHandlerException("String object is null.");
+        }
 
         Pattern pattern = Pattern.compile(WORD_REGEX);
         Matcher matcher = pattern.matcher(textForParsing);
@@ -46,7 +49,7 @@ public class ParseWordChainHandler extends AbstractChainHandler {
             }
 
             if (parsed.matches(EXPRESSION_REGEX)) {
-                PolskaFormConverter converter = new PolskaFormConverter();
+                PolishFormConverter converter = new PolishFormConverter();
                 ExpressionClient interpreter = new ExpressionClient(converter.convert(parsed));
                 parsed = interpreter.calculate().toString();
             }
@@ -61,7 +64,7 @@ public class ParseWordChainHandler extends AbstractChainHandler {
             handleRequest(composite, textForParsing);
             composite.getComponents()
                     .stream()
-                    .filter(component -> component.getType().equals(TextType.WORD))
+                    .filter(component -> TextType.WORD.equals(component.getType()))
                     .forEach(component -> successor.chain((TextComposite) component, words.poll()));
         } catch (ChainHandlerException e) {
             LOG.error(e);

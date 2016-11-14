@@ -2,7 +2,7 @@ package com.epam.fourth.converter;
 
 import java.util.ArrayDeque;
 
-public class PolskaFormConverter {
+public class PolishFormConverter {
     private static final char L_BRACKET = '(';
     private static final char R_BRACKET = ')';
     private static final char PLUS = '+';
@@ -23,7 +23,7 @@ public class PolskaFormConverter {
     private ArrayDeque<String> stack;
     private ArrayDeque<String> out;
 
-    public PolskaFormConverter() {
+    public PolishFormConverter() {
         stack = new ArrayDeque<>();
         out = new ArrayDeque<>();
     }

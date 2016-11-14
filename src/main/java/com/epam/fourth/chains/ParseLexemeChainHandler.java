@@ -25,6 +25,9 @@ public class ParseLexemeChainHandler extends AbstractChainHandler {
         if(composite == null) {
             throw new ChainHandlerException("TextComposite object is null.");
         }
+        if (textForParsing == null) {
+            throw new ChainHandlerException("String object is null.");
+        }
 
         Pattern pattern = Pattern.compile(LEXEME_REGEX);
         Matcher matcher = pattern.matcher(textForParsing);
@@ -41,7 +44,7 @@ public class ParseLexemeChainHandler extends AbstractChainHandler {
             handleRequest(composite, textForParsing);
             composite.getComponents()
                     .stream()
-                    .filter(component -> component.getType().equals(TextType.LEXEME))
+                    .filter(component -> TextType.LEXEME.equals(component.getType()))
                     .forEach(component -> successor.chain((TextComposite) component, lexemes.poll()));
         } catch (ChainHandlerException e) {
             LOG.error(e);

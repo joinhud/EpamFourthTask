@@ -3,7 +3,7 @@ package com.epam.fourth.action;
 import com.epam.fourth.comparator.CompositeCountLexemeComparator;
 import com.epam.fourth.composite.TextComponent;
 import com.epam.fourth.composite.TextComposite;
-import com.epam.fourth.exception.CompositeActionException;
+import com.epam.fourth.exception.CompositeException;
 import com.epam.fourth.exception.TextActionException;
 import com.epam.fourth.type.TextType;
 
@@ -14,7 +14,7 @@ public class TextAction {
     private static final int FIRST_ELEMENT_INDEX = 0;
     private static final int SECOND_ELEMENT_INDEX = 1;
 
-    public String sortByCountOfLexeme(TextComposite text) throws CompositeActionException {
+    public String sortByCountOfLexeme(TextComposite text) throws CompositeException {
         String result = "";
         CompositeAction action = new CompositeAction();
         ArrayList<TextComponent> sentences = action.getComponentsByType(text, TextType.SENTENCE);
@@ -28,7 +28,7 @@ public class TextAction {
         return result;
     }
 
-    public void swapLexemes(TextComposite text) throws CompositeActionException {
+    public void swapLexemes(TextComposite text) throws CompositeException {
         CompositeAction action = new CompositeAction();
         ArrayList<TextComponent> sentences = action.getComponentsByType(text, TextType.SENTENCE);
 
@@ -40,7 +40,7 @@ public class TextAction {
     }
 
     public void deleteLexemes(TextComposite text, int length, char ch)
-            throws CompositeActionException, TextActionException {
+            throws CompositeException, TextActionException {
         CompositeAction action = new CompositeAction();
         ArrayList<TextComponent> sentences = action.getComponentsByType(text, TextType.SENTENCE);
         if (length < 1) {

@@ -2,7 +2,7 @@ package com.epam.fourth.comparator;
 
 import com.epam.fourth.action.CompositeAction;
 import com.epam.fourth.composite.TextComponent;
-import com.epam.fourth.exception.CompositeActionException;
+import com.epam.fourth.exception.CompositeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ public class CompositeCountLexemeComparator implements Comparator<TextComponent>
         int result = 0;
         try {
             result = action.calculateLexemesCount(o1) > action.calculateLexemesCount(o2) ? 1 : -1;
-        } catch (CompositeActionException e) {
+        } catch (CompositeException e) {
             LOG.error(e);
         }
         return result;

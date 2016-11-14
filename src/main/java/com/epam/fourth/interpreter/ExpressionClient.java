@@ -55,10 +55,16 @@ public class ExpressionClient {
     }
 
     public Number calculate() {
+        if (listExpression.isEmpty()) {
+            return null;
+        }
+
         Context context = new Context();
+
         for (AbstractMathExpression terminal : listExpression) {
             terminal.interpret(context);
         }
+
         return context.popValue().intValue();
     }
 }
